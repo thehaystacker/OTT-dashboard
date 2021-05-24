@@ -1,0 +1,19 @@
+{
+	"name": "ott-dashboard",
+	"version": "1.0.0",
+	"description": "An OTT dashboard with both client and server",
+	"main": "index.js",
+	"author": "thehaystacker",
+	"license": "MIT",
+	"private": true,
+	"engines": {
+		"node": "15.2.0",
+		"npm": "7.0.8"
+	},
+	"dependencies": {
+		"express": "^4.17.1"
+	},
+	"scripts": {
+		"start": "node index.js"
+	}
+}
