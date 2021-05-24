@@ -14,6 +14,7 @@
 		"express": "^4.17.1"
 	},
 	"scripts": {
-		"start": "node index.js"
+		"start": "node index.js",
+		"heroku-postbuild": "cd client && yarn install && yarn run build"
 	}
 }
