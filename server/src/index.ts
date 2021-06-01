@@ -6,7 +6,7 @@ const port = 3001;
 
 app.use(express.static(path.resolve(__dirname, "../../client/build")));
 
-app.get("/", (req, res) => {
+app.get("/api", (req, res) => {
 	res.send("The sedulous hyena ate");
 });
 
