@@ -2,7 +2,7 @@ import express from "express";
 import path from "path";
 
 const app = express();
-const port = process.env.port || 3001;
+const port = process.env.PORT || 3001;
 
 app.get("/", (req, res) => {
 	res.send({ message: "Hello" });
