@@ -1,39 +1,15 @@
-import React, { useEffect } from "react";
-import logo from "./logo.svg";
+import React, { FC } from "react";
 import "./App.css";
+import User from "./components/User";
 
-function App() {
-	useEffect(() => {
-		console.log(`[useEffect]`);
+interface Props {}
 
-		fetch("/api")
-			.then((res) => res.json())
-			.then((response) => {
-				console.log(`[response]`, response);
-			})
-			.catch((error) => {
-				console.log(`[error]`, error);
-			});
-	}, []);
-
+const App: FC<Props> = (props: Props) => {
 	return (
 		<div className="App">
-			<header className="App-header">
-				<img src={logo} className="App-logo" alt="logo" />
-				<p>
-					Edit <code>src/App.tsx</code> and save to reload.
-				</p>
-				<a
-					className="App-link"
-					href="https://reactjs.org"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					Learn React
-				</a>
-			</header>
+			<User />
 		</div>
 	);
-}
+};
 
 export default App;
