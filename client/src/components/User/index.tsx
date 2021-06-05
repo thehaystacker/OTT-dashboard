@@ -24,7 +24,8 @@ const User: FC<Props> = (props) => {
 				console.log(`[_onFormSubmit response]`, response);
 			})
 			.catch((error) => {
-				console.log(`[_onFormSubmit error]`, error);
+				console.log(error.response.data);
+				// console.log(`[_onFormSubmit error]`, error);
 			});
 	};
 

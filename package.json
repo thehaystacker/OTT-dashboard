@@ -16,7 +16,7 @@
 	},
 	"scripts": {
 		"start": "node server/dist/index.js",
-		"start:server": "concurrently \"tsc --watch\"  \"nodemon -q server/dist/index.js\"",
+		"server": "concurrently \"tsc --watch\"  \"nodemon -q server/dist/index.js\"",
 		"heroku-postbuild": "cd client && yarn install && yarn run build"
 	},
 	"devDependencies": {

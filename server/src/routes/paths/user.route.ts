@@ -18,14 +18,16 @@ router.post(`/`, async (req, res) => {
 	console.log(`[req]`, req.body);
 
 	const newUser = new UserModel(req.body);
-	try {
-		await newUser.save();
-		res
-			.status(201)
-			.send({ success: true, message: `New user created`, data: newUser });
-	} catch (error) {
-		return res.status(400).send(new Error("description"));
-	}
+	newUser
+		.save()
+		.then(() => {
+			res
+				.status(201)
+				.send({ success: true, message: `New user created`, data: newUser });
+		})
+		.catch((error: ErrorEntity) => {
+			res.status(400).send({ success: false, error: error.message });
+		});
 });
 
 export default router;
