@@ -1,7 +1,7 @@
 import { Router, Request, Response } from "express";
 import { Error } from "mongoose";
 const router = Router();
-import UserModel from "../../models/user.model";
+import UserModel from "../models/users.model";
 
 interface ErrorEntity extends Error {
 	driver: boolean;
@@ -15,8 +15,6 @@ router.get(`/`, (req: Request, res: Response) => {
 });
 
 router.post(`/`, async (req, res) => {
-	console.log(`[req]`, req.body);
-
 	const newUser = new UserModel(req.body);
 	newUser
 		.save()

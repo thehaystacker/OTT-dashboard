@@ -1,11 +1,11 @@
-import express, { Application, Request, Response, NextFunction } from "express";
+import express, { Application, Request, Response } from "express";
 import path from "path";
 import connect from "./db/connect";
 import routes from "./routes";
 
 const app: Application = express();
-app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 const baseUrl = `/api/v1`;
 const port = process.env.PORT || 3001;

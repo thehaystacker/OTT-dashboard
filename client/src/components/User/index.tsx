@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import axios from "axios";
 
 interface Props {}
@@ -28,6 +28,25 @@ const User: FC<Props> = (props) => {
 				// console.log(`[_onFormSubmit error]`, error);
 			});
 	};
+
+	useEffect(() => {
+		const firstPromise = new Promise((resolve, reject) => {
+			setTimeout(() => reject("Promise 1"), 1000);
+		});
+
+		const secondPromise = new Promise((resolve, reject) => {
+			setTimeout(() => reject("Promise 2"), 1000);
+		});
+
+		Promise.all([firstPromise, secondPromise])
+			.then(([promise1, promise2]) => {
+				console.log(`[promise 1]`, promise1);
+				console.log(`[promise 2]`, promise2);
+			})
+			.catch((error) => {
+				console.log(`[error]`, error);
+			});
+	}, []);
 
 	return (
 		<div className="form__wrapper">
