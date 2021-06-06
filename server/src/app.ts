@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const baseUrl = `/api/v1`;
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 80;
 const db = `${process.env.MONGODB_URL}/${process.env.MONGODB_DBNAME}`;
 
 connect(db);
