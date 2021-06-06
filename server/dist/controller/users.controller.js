@@ -41,13 +41,26 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var users_model_1 = __importDefault(require("../models/users.model"));
 var getAllUsers = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var users, error_1;
     return __generator(this, function (_a) {
-        res.status(200).send({ data: [] });
-        return [2 /*return*/];
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, users_model_1.default.find({})];
+            case 1:
+                users = _a.sent();
+                res.status(200).send({ success: true, data: users });
+                return [3 /*break*/, 3];
+            case 2:
+                error_1 = _a.sent();
+                res.status(400).send({ success: false, message: "No data found" });
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
     });
 }); };
 var createUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var newUser, error_1;
+    var newUser, error_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -63,11 +76,45 @@ var createUser = function (req, res) { return __awaiter(void 0, void 0, void 0, 
                     .send({ success: true, message: "New user created", data: newUser });
                 return [3 /*break*/, 4];
             case 3:
-                error_1 = _a.sent();
-                console.log("[createUser > error message]", error_1.message);
+                error_2 = _a.sent();
+                console.log("[createUser > error message]", error_2.message);
                 res
                     .status(400)
-                    .send({ success: false, error: error_1.message, code: error_1.code });
+                    .send({ success: false, error: error_2.message, code: error_2.code });
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); };
+var updateUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var body, params, propsToUpdate, allowedProps, isUpdateValid, user, error_3;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                body = req.body, params = req.params;
+                propsToUpdate = Object.keys(body);
+                allowedProps = ["firstName", "lastName", "password"];
+                isUpdateValid = propsToUpdate.every(function (prop) {
+                    return allowedProps.includes(prop);
+                });
+                if (!isUpdateValid) {
+                    return [2 /*return*/, res
+                            .status(405)
+                            .send({ success: false, message: "Method not allowed" })];
+                }
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, users_model_1.default.findById(params.id)];
+            case 2:
+                user = _a.sent();
+                if (!user) {
+                    return [2 /*return*/, res.send({ success: false, message: "User not found" })];
+                }
+                res.send({ success: true, data: user });
+                return [3 /*break*/, 4];
+            case 3:
+                error_3 = _a.sent();
                 return [3 /*break*/, 4];
             case 4: return [2 /*return*/];
         }
@@ -76,4 +123,5 @@ var createUser = function (req, res) { return __awaiter(void 0, void 0, void 0, 
 exports.default = {
     getAllUsers: getAllUsers,
     createUser: createUser,
+    updateUser: updateUser,
 };

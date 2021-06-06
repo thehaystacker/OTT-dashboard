@@ -8,4 +8,5 @@ var users_controller_1 = __importDefault(require("../controller/users.controller
 var router = express_1.Router();
 router.get("/", users_controller_1.default.getAllUsers);
 router.post("/", users_controller_1.default.createUser);
+router.patch("/:id", users_controller_1.default.updateUser);
 exports.default = router;
