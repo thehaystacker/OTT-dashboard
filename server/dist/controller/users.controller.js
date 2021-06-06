@@ -39,28 +39,41 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = require("express");
-var router = express_1.Router();
-var user_model_1 = __importDefault(require("../../models/user.model"));
-router.get("/", function (req, res) {
-    res.status(200).send({ data: [] });
-});
-router.post("/", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var newUser;
+var users_model_1 = __importDefault(require("../models/users.model"));
+var getAllUsers = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
-        console.log("[req]", req.body);
-        newUser = new user_model_1.default(req.body);
-        newUser
-            .save()
-            .then(function () {
-            res
-                .status(201)
-                .send({ success: true, message: "New user created", data: newUser });
-        })
-            .catch(function (error) {
-            res.status(400).send({ success: false, error: error.message });
-        });
+        res.status(200).send({ data: [] });
         return [2 /*return*/];
     });
-}); });
-exports.default = router;
+}); };
+var createUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var newUser, error_1;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                newUser = new users_model_1.default(req.body);
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, newUser.save()];
+            case 2:
+                _a.sent();
+                res
+                    .status(201)
+                    .send({ success: true, message: "New user created", data: newUser });
+                return [3 /*break*/, 4];
+            case 3:
+                error_1 = _a.sent();
+                console.log("[createUser > error message]", error_1.message);
+                res
+                    .status(400)
+                    .send({ success: false, error: error_1.message, code: error_1.code });
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); };
+exports.default = {
+    getAllUsers: getAllUsers,
+    createUser: createUser,
+};

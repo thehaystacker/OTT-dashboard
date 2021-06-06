@@ -1,15 +1,17 @@
 import express, { Application, Request, Response } from "express";
 import path from "path";
+import dotenv from "dotenv";
 import connect from "./db/connect";
 import routes from "./routes";
 
+dotenv.config();
 const app: Application = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const baseUrl = `/api/v1`;
 const port = process.env.PORT || 3001;
-const db = `mongodb://localhost:27017/ott-dashboard`;
+const db = `${process.env.MONGODB_URL}/${process.env.MONGODB_DBNAME}`;
 
 connect(db);
 
