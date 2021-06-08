@@ -39,27 +39,43 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var mongoose_1 = __importDefault(require("mongoose"));
-exports.default = (function (db) { return __awaiter(void 0, void 0, void 0, function () {
-    var error_1;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, mongoose_1.default.connect(db, {
-                        useNewUrlParser: true,
-                        useCreateIndex: true,
-                        useUnifiedTopology: true,
-                    })];
-            case 1:
-                _a.sent();
-                console.log("[MongoDB] Connected to database");
-                return [3 /*break*/, 3];
-            case 2:
-                error_1 = _a.sent();
-                console.log("[MongoDB] Error connecting to database", error_1);
-                throw error_1;
-            case 3: return [2 /*return*/];
-        }
-    });
-}); });
+exports.validateLogin = exports.validateRegister = void 0;
+var express_validator_1 = require("express-validator");
+var user_model_1 = __importDefault(require("../models/user.model"));
+var validateRegister = function () { return [
+    express_validator_1.check("email")
+        .notEmpty()
+        .withMessage("Email is required")
+        .isEmail()
+        .withMessage("Invalid email")
+        .custom(function (email) { return __awaiter(void 0, void 0, void 0, function () {
+        var existingUser;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, user_model_1.default.findOne({ email: email })];
+                case 1:
+                    existingUser = _a.sent();
+                    if (existingUser) {
+                        throw new Error("Email already in use");
+                    }
+                    return [2 /*return*/];
+            }
+        });
+    }); }),
+    express_validator_1.check("password")
+        .notEmpty()
+        .withMessage("Password is required")
+        .isLength({ min: 5 })
+        .withMessage("Password should have minimun 5 characters"),
+    express_validator_1.check("firstName").notEmpty().withMessage("First name is required"),
+]; };
+exports.validateRegister = validateRegister;
+var validateLogin = function () { return [
+    express_validator_1.check("email")
+        .notEmpty()
+        .withMessage("Email is required")
+        .isEmail()
+        .withMessage("Invlid email"),
+    express_validator_1.check("password").notEmpty().withMessage("Password is required"),
+]; };
+exports.validateLogin = validateLogin;

@@ -39,45 +39,42 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var mongoose_1 = require("mongoose");
-var bcryptjs_1 = __importDefault(require("bcryptjs"));
-var common_1 = __importDefault(require("../config/common"));
-var UserSchema = new mongoose_1.Schema({
-    email: {
-        type: String,
-        required: true,
-        unique: true,
-    },
-    firstName: {
-        type: String,
-        required: true,
-    },
-    lastName: {
-        type: String,
-        required: true,
-    },
-    password: {
-        type: String,
-        required: true,
-    },
-});
-UserSchema.pre("save", function (next) {
-    return __awaiter(this, void 0, void 0, function () {
-        var _a;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
-                case 0:
-                    if (!this.isModified("password")) return [3 /*break*/, 2];
-                    _a = this;
-                    return [4 /*yield*/, bcryptjs_1.default.hash(this.password, common_1.default.pwdHashSalt)];
-                case 1:
-                    _a.password = _b.sent();
-                    _b.label = 2;
-                case 2:
-                    next();
-                    return [2 /*return*/];
-            }
-        });
+exports.auth = void 0;
+var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+var dotenv_1 = __importDefault(require("dotenv"));
+var user_model_1 = __importDefault(require("../models/user.model"));
+dotenv_1.default.config();
+var auth = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var token, decoded, user, error_1;
+    var _a;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _b.trys.push([0, 2, , 3]);
+                token = (_a = req.header("Authorization")) === null || _a === void 0 ? void 0 : _a.replace("Bearer ", "");
+                decoded = jsonwebtoken_1.default.verify(token, process.env.JWT_TOKEN_SECRET);
+                return [4 /*yield*/, user_model_1.default.findOne({
+                        _id: decoded._id,
+                        "tokens.token": token,
+                    })];
+            case 1:
+                user = _b.sent();
+                if (!user) {
+                    throw new Error();
+                }
+                // console.log(`[Middleware > auth > user]`, user);
+                req.user = user;
+                next();
+                return [3 /*break*/, 3];
+            case 2:
+                error_1 = _b.sent();
+                res.status(401).send({
+                    success: false,
+                    message: "Authentication error",
+                });
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
     });
-});
-exports.default = mongoose_1.model("User", UserSchema);
+}); };
+exports.auth = auth;
