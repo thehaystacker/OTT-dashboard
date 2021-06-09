@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 
 import config from "../config/common";
-import { UserEntity, UserModelEntity } from "../types/user";
+import { UserEntity, UserModelEntity, UserPropType } from "../types/user";
 
 dotenv.config();
 
@@ -71,6 +71,15 @@ UserSchema.methods.generateAuthToken = async function () {
 		throw new Error(`Authentication error ${error.message}`);
 	}
 };
+
+// UserSchema.methods.toJSON = function (user) {
+// 	var obj = <UserEntity>user.toObject();
+// 	const excludeKeys = ["tokens", "password", "__v"];
+// 	excludeKeys.forEach((key) => {
+// 		delete obj[<UserPropType>key];
+// 	});
+// 	return obj;
+// };
 
 UserSchema.pre<UserEntity>("save", async function (next) {
 	if (this.isModified("password")) {

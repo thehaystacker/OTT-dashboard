@@ -124,6 +124,14 @@ UserSchema.methods.generateAuthToken = function () {
         });
     });
 };
+// UserSchema.methods.toJSON = function (user) {
+// 	var obj = <UserEntity>user.toObject();
+// 	const excludeKeys = ["tokens", "password", "__v"];
+// 	excludeKeys.forEach((key) => {
+// 		delete obj[<UserPropType>key];
+// 	});
+// 	return obj;
+// };
 UserSchema.pre("save", function (next) {
     return __awaiter(this, void 0, void 0, function () {
         var _a;

@@ -17,6 +17,8 @@ router.get(`/all`, auth, UserController.getAllUsers);
 
 router.get(`/me`, auth, UserController.getUserProfile);
 
+router.get(`/:id`, auth, UserController.getSingleUserProfile);
+
 router.patch(`/:id`, auth, UserController.updateUser);
 
 export default router;

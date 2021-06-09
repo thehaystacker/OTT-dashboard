@@ -28,5 +28,6 @@ router.post("/register", UserValidation.validateRegister(), UserController.regis
 router.post("/login", UserValidation.validateLogin(), UserController.login);
 router.get("/all", auth_1.auth, UserController.getAllUsers);
 router.get("/me", auth_1.auth, UserController.getUserProfile);
+router.get("/:id", auth_1.auth, UserController.getSingleUserProfile);
 router.patch("/:id", auth_1.auth, UserController.updateUser);
 exports.default = router;

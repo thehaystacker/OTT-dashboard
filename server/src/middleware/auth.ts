@@ -2,7 +2,12 @@ import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import UserModel from "../models/user.model";
-import { AuthRequestEntity, DecodedTokenEntity } from "../types/user";
+import {
+	AuthRequestEntity,
+	DecodedTokenEntity,
+	UserEntity,
+	UserPropType,
+} from "../types/user";
 
 dotenv.config();
 

@@ -141,5 +141,29 @@ export const updateUser = async (req: Request, res: Response) => {
 		console.log(`[Controller > updateUser > user]`, user);
 
 		res.send({ success: true, data: user });
-	} catch (error) {}
+	} catch (error) {
+		res.status(500).send({ success: false, message: `Error updating record` });
+	}
+};
+
+export const getSingleUserProfile = async (req: Request, res: Response) => {
+	const { params } = req;
+
+	try {
+		let user = await UserModel.findById(params.id);
+
+		// console.log(`[Controller > getSingleUserProfile > user]`, user);
+
+		if (!user) {
+			return res
+				.status(404)
+				.send({ success: false, message: `Record unavailable` });
+		}
+		res.status(200).send({ success: true, data: user });
+	} catch (error) {
+		res.status(500).send({
+			success: false,
+			message: `Error fetching record`,
+		});
+	}
 };

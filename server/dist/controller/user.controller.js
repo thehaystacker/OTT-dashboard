@@ -39,7 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateUser = exports.getUserProfile = exports.getAllUsers = exports.login = exports.register = void 0;
+exports.getSingleUserProfile = exports.updateUser = exports.getUserProfile = exports.getAllUsers = exports.login = exports.register = void 0;
 var express_validator_1 = require("express-validator");
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var dotenv_1 = __importDefault(require("dotenv"));
@@ -200,9 +200,42 @@ var updateUser = function (req, res) { return __awaiter(void 0, void 0, void 0, 
                 return [3 /*break*/, 5];
             case 4:
                 error_4 = _a.sent();
+                res.status(500).send({ success: false, message: "Error updating record" });
                 return [3 /*break*/, 5];
             case 5: return [2 /*return*/];
         }
     });
 }); };
 exports.updateUser = updateUser;
+var getSingleUserProfile = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var params, user, error_5;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                params = req.params;
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, user_model_1.default.findById(params.id)];
+            case 2:
+                user = _a.sent();
+                // console.log(`[Controller > getSingleUserProfile > user]`, user);
+                if (!user) {
+                    return [2 /*return*/, res
+                            .status(404)
+                            .send({ success: false, message: "Record unavailable" })];
+                }
+                res.status(200).send({ success: true, data: user });
+                return [3 /*break*/, 4];
+            case 3:
+                error_5 = _a.sent();
+                res.status(500).send({
+                    success: false,
+                    message: "Error fetching record",
+                });
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); };
+exports.getSingleUserProfile = getSingleUserProfile;
