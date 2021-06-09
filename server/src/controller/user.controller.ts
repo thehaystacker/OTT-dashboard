@@ -5,7 +5,12 @@ import dotenv from "dotenv";
 
 import config from "../config/common";
 import UserModel from "../models/user.model";
-import { AuthRequestEntity, UserPropType } from "../types/user";
+import {
+	AuthRequestEntity,
+	TokenEntity,
+	UserEntity,
+	UserPropType,
+} from "../types/user";
 
 dotenv.config();
 
@@ -165,5 +170,28 @@ export const getSingleUserProfile = async (req: Request, res: Response) => {
 			success: false,
 			message: `Error fetching record`,
 		});
+	}
+};
+
+export const logout = async (req: AuthRequestEntity, res: Response) => {
+	try {
+		let user = <UserEntity>req.user;
+		const { body } = req;
+
+		console.log(`[Controller > logout > body.all]`, body.all);
+		console.log(`[Controller > logout > typeof body.all]`, typeof body.all);
+
+		if (body.all === true) {
+			user.tokens = [];
+		} else {
+			user.tokens = user.tokens.filter(
+				(tokenObj) => tokenObj.token !== req.token
+			);
+		}
+
+		await user.save();
+		res.status(200).send({ success: true, message: `Logout successful` });
+	} catch (error) {
+		res.status(500).send({ success: false, message: `Error logging out user` });
 	}
 };

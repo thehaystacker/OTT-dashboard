@@ -59,10 +59,12 @@ var auth = function (req, res, next) { return __awaiter(void 0, void 0, void 0, 
                     })];
             case 1:
                 user = _b.sent();
+                // console.log(`[Middleware > auth > user]`, user);
                 if (!user) {
                     throw new Error();
                 }
                 // console.log(`[Middleware > auth > user]`, user);
+                req.token = token;
                 req.user = user;
                 next();
                 return [3 /*break*/, 3];

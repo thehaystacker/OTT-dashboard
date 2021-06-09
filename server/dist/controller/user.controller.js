@@ -39,7 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getSingleUserProfile = exports.updateUser = exports.getUserProfile = exports.getAllUsers = exports.login = exports.register = void 0;
+exports.logout = exports.getSingleUserProfile = exports.updateUser = exports.getUserProfile = exports.getAllUsers = exports.login = exports.register = void 0;
 var express_validator_1 = require("express-validator");
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var dotenv_1 = __importDefault(require("dotenv"));
@@ -239,3 +239,33 @@ var getSingleUserProfile = function (req, res) { return __awaiter(void 0, void 0
     });
 }); };
 exports.getSingleUserProfile = getSingleUserProfile;
+var logout = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var user, body, error_6;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                user = req.user;
+                body = req.body;
+                console.log("[Controller > logout > body.all]", body.all);
+                console.log("[Controller > logout > typeof body.all]", typeof body.all);
+                if (body.all === true) {
+                    user.tokens = [];
+                }
+                else {
+                    user.tokens = user.tokens.filter(function (tokenObj) { return tokenObj.token !== req.token; });
+                }
+                return [4 /*yield*/, user.save()];
+            case 1:
+                _a.sent();
+                res.status(200).send({ success: true, message: "Logout successful" });
+                return [3 /*break*/, 3];
+            case 2:
+                error_6 = _a.sent();
+                res.status(500).send({ success: false, message: "Error logging out user" });
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+exports.logout = logout;

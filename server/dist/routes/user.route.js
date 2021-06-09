@@ -26,6 +26,7 @@ var UserValidation = __importStar(require("../validations/user.validation"));
 var router = express_1.Router();
 router.post("/register", UserValidation.validateRegister(), UserController.register);
 router.post("/login", UserValidation.validateLogin(), UserController.login);
+router.post("/logout", auth_1.auth, UserController.logout);
 router.get("/all", auth_1.auth, UserController.getAllUsers);
 router.get("/me", auth_1.auth, UserController.getUserProfile);
 router.get("/:id", auth_1.auth, UserController.getSingleUserProfile);

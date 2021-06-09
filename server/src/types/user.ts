@@ -14,12 +14,18 @@ export interface UserEntity extends Document {
 
 export interface AuthRequestEntity extends Request {
 	user?: UserEntity;
+	token?: string;
 }
 
 export interface DecodedTokenEntity {
 	_id: string;
 	iat: number;
 	exp: number;
+}
+
+export interface TokenEntity {
+	_id: string;
+	token: string;
 }
 
 export interface UserModelEntity extends Model<UserEntity> {

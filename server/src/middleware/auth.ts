@@ -18,6 +18,9 @@ export const auth = async (
 ) => {
 	try {
 		const token = req.header("Authorization")?.replace("Bearer ", "");
+
+		// console.log(`[Middleware > auth > token]`, token);
+
 		const decoded = jwt.verify(
 			token as string,
 			<string>process.env.JWT_TOKEN_SECRET
@@ -28,12 +31,15 @@ export const auth = async (
 			"tokens.token": token,
 		});
 
+		// console.log(`[Middleware > auth > user]`, user);
+
 		if (!user) {
 			throw new Error();
 		}
 
 		// console.log(`[Middleware > auth > user]`, user);
 
+		req.token = token;
 		req.user = user;
 		next();
 	} catch (error) {

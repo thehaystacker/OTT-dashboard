@@ -13,6 +13,8 @@ router.post(
 
 router.post(`/login`, UserValidation.validateLogin(), UserController.login);
 
+router.post(`/logout`, auth, UserController.logout);
+
 router.get(`/all`, auth, UserController.getAllUsers);
 
 router.get(`/me`, auth, UserController.getUserProfile);
